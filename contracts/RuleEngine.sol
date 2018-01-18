@@ -1,15 +1,15 @@
 pragma solidity ^0.4.18;
 
-import "./Ownable.sol";
+import './Ownable.sol';
 
 /**
  * @title Dynamic Rule Engine
  * @author Jitendra Chittoda
  */
-contract RuleEngine{
+contract RuleEngine is Ownable{
 
 	//Mapping to store RuleAddress => enabled/disabled
-	mapping(address => bool) rules; 
+	mapping(address => bool) public rules; 
 	address[] public rulesArr;	
 	uint256 public rulesCount;	
 
@@ -29,7 +29,7 @@ contract RuleEngine{
 	/**
 	 * @dev Enable / Disable any rul
 	 */
-	function enableRule(bool _val) public onlyOwner {
+	function enableRule(address _ruleAddress, bool _val) public onlyOwner  {
 		rules[_ruleAddress] = _val;	
 	}
 
@@ -39,7 +39,7 @@ contract RuleEngine{
 	function executeAllRules() public constant returns (bool) {
 		bool isPassed = false;
 		for(uint256 i = 0 ; i < rulesCount ; i++) {
-			if(rules[i]) {
+			if(rules[rulesArr[i]]) {
 				isPassed = isPassed && IRule(rulesArr[i]).execute();	
 			}			
 		}
