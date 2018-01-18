@@ -37,7 +37,7 @@ contract RuleEngine is Ownable{
 	 * @dev Executes all enabled rules present in this contract
 	 */
 	function executeAllRules() public constant returns (bool) {
-		bool isPassed = false;
+		bool isPassed = true;
 		for(uint256 i = 0 ; i < rulesCount ; i++) {
 			if(rules[rulesArr[i]]) {
 				isPassed = isPassed && IRule(rulesArr[i]).execute();	
@@ -50,7 +50,7 @@ contract RuleEngine is Ownable{
 	 * @dev Executes third party rules
 	 */
 	function executeRules(address[] _rules) public constant returns (bool) {
-		bool isPassed = false;
+		bool isPassed = true;
 		for(uint256 i = 0 ; i < _rules.length ; i++) {
 			isPassed = isPassed && IRule(_rules[i]).execute();
 		}
